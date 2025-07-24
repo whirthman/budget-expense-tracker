@@ -1,0 +1,871 @@
+/* Variables for theming */
+:root {
+    --primary-color: #4CAF50; /* Green */
+    --secondary-color: #2196F3; /* Blue */
+    --accent-color: #FFC107; /* Amber */
+    --danger-color: #F44336; /* Red */
+    --info-color: #03A9F4; /* Light Blue */
+    --warning-color: #FF9800; /* Orange */
+    --bg-color: #f4f7f6;
+    --card-bg-color: #ffffff;
+    --text-color: #333333;
+    --text-color-light: #555555;
+    --text-color-dark: #222222;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --hover-bg-color: #f0f0f0;
+}
+
+/* Dark Mode Variables - Inspired by demographic map/deep theme aesthetic */
+body.dark-mode {
+    --bg-color: #1A1A2E; /* Deep dark blue/charcoal */
+    --card-bg-color: #1F2840; /* Slightly lighter, deep blue-grey for cards */
+    --text-color: #E0E0E0; /* Light grey for general text */
+    --text-color-light: #C0C0C0; /* Slightly darker light grey for subtle text */
+    --text-color-dark: #F0F0F0; /* Almost white for headings/strong text */
+    --border-color: #3A4750; /* Subtle cool grey for borders */
+    --shadow-color: rgba(0, 0, 0, 0.4); /* Deeper, softer shadow */
+    --hover-bg-color: #28354A; /* Slightly lighter card background on hover */
+    /* Primary, secondary, accent, danger, info, warning colors remain vibrant against dark background */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    transition: background-color 0.3s, color 0.3s;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- Header --- */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 0;
+    box-shadow: 0 2px 5px var(--shadow-color);
+    margin-bottom: 20px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
+    gap: 10px; /* Space between items when wrapping */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    flex-shrink: 0; /* Prevent h1 from shrinking */
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* Allow buttons to wrap */
+    justify-content: flex-end; /* Align to right when wrapped */
+    flex-grow: 1; /* Allow actions to take available space */
+}
+
+/* --- Buttons --- */
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap; /* Prevent text wrapping inside buttons */
+}
+
+.btn i {
+    font-size: 1em;
+}
+
+.btn-primary { background-color: var(--primary-color); color: white; }
+.btn-primary:hover { background-color: #43A047; transform: translateY(-1px); }
+
+.btn-danger { background-color: var(--danger-color); color: white; }
+.btn-danger:hover { background-color: #E53935; transform: translateY(-1px); }
+
+.btn-accent { background-color: var(--accent-color); color: var(--text-color-dark); }
+.btn-accent:hover { background-color: #FBBC05; transform: translateY(-1px); }
+
+.btn-secondary { background-color: #6c757d; color: white; }
+.btn-secondary:hover { background-color: #5a6268; transform: translateY(-1px); }
+
+.btn-info { background-color: var(--info-color); color: white; }
+.btn-info:hover { background-color: #0288D1; transform: translateY(-1px); }
+
+.btn-warning { background-color: var(--warning-color); color: white; }
+.btn-warning:hover { background-color: #F57C00; transform: translateY(-1px); }
+
+.btn-success { background-color: var(--primary-color); color: white; } /* Re-using primary for success */
+.btn-success:hover { background-color: #43A047; transform: translateY(-1px); }
+
+.btn-small {
+    padding: 6px 10px;
+    font-size: 0.8em;
+    gap: 5px;
+}
+
+.toggle-dark-mode {
+    background: none;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+}
+.toggle-dark-mode:hover {
+    background-color: var(--hover-bg-color);
+    transform: none;
+}
+body.dark-mode .toggle-dark-mode {
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+body.dark-mode .toggle-dark-mode:hover {
+    background-color: var(--hover-bg-color);
+}
+
+
+/* --- Dashboard Cards --- */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: var(--card-bg-color);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.card h3 {
+    margin-top: 0;
+    color: var(--text-color-light);
+    font-size: 1em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 2.2em;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.today-spending p {
+    color: var(--danger-color); /* Highlight today's spending in red */
+}
+
+/* More dashboard cards for mobile collapse */
+.more-dashboard-cards {
+    display: grid; /* Default for desktop */
+    grid-template-columns: subgrid; /* Use parent's grid columns */
+    grid-column: 1 / -1; /* Span all columns of the parent grid */
+    gap: 20px;
+}
+
+/* Toggle button for dashboard cards (mobile only) */
+.toggle-dashboard-btn {
+    display: none; /* Hidden by default on desktop */
+    width: fit-content;
+    margin: 15px auto 0 auto; /* Center button */
+    padding: 8px 15px;
+    background-color: #6c757d;
+    color: white;
+}
+
+
+/* --- Filters Section --- */
+.filters-section {
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.filter-collapse-content {
+    display: flex; /* Default for desktop */
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: flex-end; /* Align inputs/selects at bottom */
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.filter-group label {
+    font-size: 0.9em;
+    color: var(--text-color-light);
+    margin-bottom: 3px;
+}
+
+/* NEW: Styles for the "Show All Days" checkbox */
+.filter-group input[type="checkbox"] {
+    margin-top: 8px; /* Align vertically with date input */
+    margin-right: 5px;
+    transform: scale(1.2); /* Make checkbox slightly larger */
+    accent-color: var(--primary-color); /* Custom color for checkbox */
+    cursor: pointer;
+}
+.filter-group input[type="checkbox"] + label {
+    cursor: pointer;
+    margin-bottom: 0; /* Reset margin for inline label */
+}
+
+
+.filters-section select,
+.filters-section input[type="date"] {
+    padding: 8px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+    font-size: 0.9em;
+    width: 150px; /* Fixed width for consistency */
+    max-width: 100%;
+    transition: border-color 0.2s;
+}
+.filters-section select:focus,
+.filters-section input[type="date"]:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+}
+
+/* NEW: Sorting controls for Expense History */
+.sort-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed var(--border-color);
+}
+.sort-controls label {
+    font-size: 1em;
+    color: var(--text-color-dark);
+    margin-bottom: 0;
+}
+.sort-controls select {
+    padding: 8px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+    font-size: 0.9em;
+    width: 120px;
+}
+
+.filter-actions {
+    display: flex;
+    align-items: flex-end; /* Align with inputs */
+    padding-top: 10px; /* Space from filter groups */
+}
+
+/* Toggle button for filters (mobile only) */
+.toggle-filters-btn {
+    display: none; /* Hidden by default on desktop */
+    width: fit-content;
+    margin-bottom: 15px;
+    padding: 8px 15px;
+    background-color: #6c757d;
+    color: white;
+}
+
+
+/* --- Actions Group (Desktop Only) --- */
+#desktopActionsGroup {
+    display: flex; /* Default for desktop */
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+/* Mobile Actions Toggle */
+.toggle-mobile-actions-btn {
+    display: none; /* Hidden by default on desktop */
+    width: fit-content;
+    margin: 0 auto 20px auto; /* Center button */
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+/* --- Modals --- */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    padding: 20px; /* Padding around modal content */
+}
+
+.modal-content {
+    background-color: var(--card-bg-color);
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transform: translateY(0); /* For transition effect */
+    transition: transform 0.3s ease-out;
+}
+
+.modal.open .modal-content {
+    transform: translateY(0); /* Animate from slightly above */
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+    font-size: 1.6em;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.modal-content label {
+    font-weight: bold;
+    color: var(--text-color-light);
+    font-size: 0.95em;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="number"],
+.modal-content input[type="date"],
+.modal-content select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: var(--bg-color); /* Lighter background in dark mode */
+    color: var(--text-color);
+    transition: border-color 0.2s;
+}
+
+.modal-content input:focus,
+.modal-content select:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+}
+
+.modal-content button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+}
+
+.close-button {
+    color: var(--text-color-light);
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: var(--danger-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Prevent body scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
+    padding-right: 15px; /* Compensate for scrollbar to prevent layout shift */
+}
+
+/* Mobile actions modal styling */
+.mobile-actions-content {
+    padding: 20px;
+    gap: 10px;
+}
+.mobile-actions-content button {
+    margin-top: 0;
+}
+
+
+/* --- Data Sections (History, Summary Lists) --- */
+.data-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.data-section h2 {
+    font-size: 1.5em;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.entry-list,
+.summary-list {
+    max-height: 400px; /* Fixed height for scrolling */
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    background-color: var(--bg-color);
+    margin-bottom: 15px;
+}
+
+.entry-item,
+.daily-summary-item,
+.weekly-summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95em;
+    color: var(--text-color);
+    transition: background-color 0.2s ease;
+    flex-wrap: wrap; /* Allow wrapping for small screens */
+    gap: 10px; /* Space between flex items */
+}
+
+.entry-item:last-child,
+.daily-summary-item:last-child,
+.weekly-summary-item:last-child {
+    border-bottom: none;
+}
+
+.entry-item:hover,
+.daily-summary-item:hover,
+.weekly-summary-item:hover {
+    background-color: var(--hover-bg-color);
+}
+
+.entry-item strong {
+    color: var(--text-color-dark);
+}
+
+.entry-item small {
+    display: block; /* New line for small text */
+    color: var(--text-color-light);
+    font-size: 0.85em;
+    margin-top: 3px;
+}
+
+.item-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0; /* Prevent actions from shrinking */
+    margin-left: auto; /* Push to the right */
+}
+
+.expense-item .item-actions button {
+    background-color: var(--secondary-color);
+}
+.expense-item .item-actions button.btn-small:hover {
+    background-color: #1976D2;
+}
+.expense-item .item-actions button:last-child {
+    background-color: var(--danger-color);
+}
+.expense-item .item-actions button:last-child:hover {
+    background-color: #D32F2F;
+}
+
+.planned-item .item-actions button:first-child {
+    background-color: var(--primary-color);
+}
+.planned-item .item-actions button:first-child:hover {
+    background-color: #43A047;
+}
+.planned-item .item-actions button:last-child {
+    background-color: var(--danger-color);
+}
+.planned-item .item-actions button:last-child:hover {
+    background-color: #D32F2F;
+}
+
+.daily-summary-item {
+    justify-content: space-between;
+}
+.daily-summary-item .date-info {
+    font-weight: bold;
+    color: var(--text-color-dark);
+}
+.daily-summary-item .total-amount {
+    font-weight: bold;
+    color: var(--danger-color); /* Daily spending in red */
+}
+
+.weekly-summary-item {
+    flex-direction: column;
+    align-items: flex-start;
+}
+.weekly-summary-item .week-info {
+    font-weight: bold;
+    color: var(--text-color-dark);
+    margin-bottom: 5px;
+}
+.weekly-summary-item .weekly-amounts {
+    display: flex;
+    gap: 15px;
+    font-size: 0.9em;
+    color: var(--text-color-light);
+    flex-wrap: wrap;
+}
+.weekly-summary-item .weekly-income {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+.weekly-summary-item .weekly-expense {
+    color: var(--danger-color);
+    font-weight: bold;
+}
+.weekly-summary-item .weekly-balance {
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+
+.show-more-btn {
+    display: block;
+    width: fit-content;
+    margin: 10px auto 0 auto;
+    font-size: 0.9em;
+    padding: 8px 15px;
+}
+
+.no-data-message {
+    text-align: center;
+    color: var(--text-color-light);
+    font-style: italic;
+    padding: 20px;
+}
+
+
+/* --- Charts Section --- */
+.charts-section {
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.charts-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    font-size: 1.8em;
+}
+
+.chart-container {
+    background-color: var(--card-bg-color);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    margin-bottom: 20px;
+    height: 400px; /* Fixed height for consistent chart rendering */
+    display: flex;
+    flex-direction: column; /* Changed to column for heading above chart */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    position: relative; /* For absolutely positioned no-data message if needed */
+}
+
+.chart-container h3 {
+    color: var(--text-color-dark);
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    text-align: center; /* Ensure heading is centered */
+    width: 100%; /* Take full width */
+}
+
+/* CRITICAL FIX: Ensure canvas fills parent container's height */
+.chart-container canvas {
+    max-height: 100%; /* Max height of its container */
+    max-width: 100%; /* Max width of its container */
+    flex-grow: 1; /* Allow canvas to take available space within flex container */
+    height: 100%; /* Explicitly set height to 100% of parent */
+    width: 100%; /* Ensure width is also 100% for proper responsiveness */
+}
+
+/* No data message for charts */
+.chart-container .no-data-message {
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--card-bg-color); /* Match card background */
+    color: var(--text-color-light);
+    font-size: 1.1em;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px; /* Inherit parent border-radius */
+    z-index: 10; /* Ensure it's above the canvas */
+}
+
+/* Chart Tabs (Mobile only) */
+.chart-tabs {
+    display: none; /* Hidden by default on desktop */
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tab-button {
+    background-color: var(--card-bg-color);
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.tab-button:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.tab-button.active {
+    background-color: var(--secondary-color);
+    color: white;
+    border-color: var(--secondary-color);
+}
+
+.chart-tab-content {
+    display: none; /* Hidden by default, shown by JS on mobile */
+    min-height: 350px; /* Ensure content has space, helps with mobile chart rendering */
+    /* Mobile specific chart layout */
+    display: flex;
+    flex-direction: column; /* Stack heading and canvas vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically if content is smaller */
+    height: 400px; /* Match desktop height for consistency */
+    padding: 20px; /* Padding for the card feel */
+    background-color: var(--card-bg-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    margin-bottom: 20px;
+    position: relative; /* For no-data message */
+}
+
+.chart-tab-content h3 {
+    margin-top: 0; /* Remove top margin from h3 inside tab content */
+    color: var(--text-color-dark);
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    text-align: center;
+    width: 100%;
+}
+
+/* CRITICAL FIX: Ensure canvas fills parent container's height within tab content as well */
+.chart-tab-content canvas {
+    max-height: 100%;
+    max-width: 100%;
+    flex-grow: 1;
+    height: 100%; /* Explicitly set height to 100% of parent */
+    width: 100%; /* Ensure width is also 100% for proper responsiveness */
+}
+
+.chart-tab-content .no-data-message {
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--card-bg-color);
+    color: var(--text-color-light);
+    font-size: 1.1em;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    z-index: 10;
+}
+
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    background-color: var(--card-bg-color);
+    color: var(--text-color-light);
+    font-size: 0.9em;
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -2px 5px var(--shadow-color);
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .header-actions {
+        width: 100%;
+        justify-content: center;
+        margin-top: 15px;
+    }
+    .header-actions .btn {
+        flex-grow: 1; /* Allow buttons to expand */
+        text-align: center;
+        justify-content: center;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: 1fr; /* Single column on mobile */
+    }
+    /* Show only first 3 cards by default on mobile */
+    .dashboard-cards .card:nth-child(4),
+    .dashboard-cards .card:nth-child(5),
+    .dashboard-cards .card:nth-child(6),
+    .dashboard-cards .card:nth-child(7) {
+        display: none; /* Hidden by default */
+    }
+    .toggle-dashboard-btn {
+        display: block; /* Show toggle button */
+    }
+    /* When more cards are shown, ensure they are block level */
+    .more-dashboard-cards {
+        grid-template-columns: 1fr; /* Single column */
+    }
+
+    /* Filters */
+    .filters-section {
+        padding: 15px;
+    }
+    .filter-collapse-content {
+        flex-direction: column; /* Stack filters vertically */
+        align-items: stretch;
+    }
+    .filter-group {
+        width: 100%; /* Full width */
+    }
+    .filters-section select,
+    .filters-section input[type="date"] {
+        width: 100%; /* Full width */
+        max-width: none;
+    }
+    .filter-actions {
+        width: 100%;
+        margin-top: 10px;
+        justify-content: center;
+    }
+    .filter-actions .btn {
+        width: 100%;
+    }
+    .toggle-filters-btn {
+        display: block; /* Show filter toggle button */
+    }
+
+    /* Actions */
+    #desktopActionsGroup {
+        display: none; /* Hide desktop actions */
+    }
+    .toggle-mobile-actions-btn {
+        display: block; /* Show mobile actions toggle */
+    }
+
+    /* Data sections */
+    .data-section {
+        grid-template-columns: 1fr; /* Single column */
+    }
+    .entry-item, .daily-summary-item, .weekly-summary-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .item-actions {
+        width: 100%;
+        justify-content: center;
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    .item-actions .btn-small {
+        flex-grow: 1;
+        text-align: center;
+        justify-content: center;
+    }
+
+    /* Charts */
+    .chart-tabs {
+        display: flex; /* Show tabs on mobile */
+    }
+    /* Hide desktop chart containers completely on mobile, regardless of content */
+    .charts-section > .chart-container {
+        display: none !important; /* Force hide desktop containers */
+    }
+    /* Mobile chart tab content containers are always block on mobile, but only one is displayed via JS */
+    .chart-tab-content {
+        display: none; /* Hidden by default, JS shows the active one */
+    }
+    .chart-tab-content h3 {
+        margin-top: 0; /* Remove top margin from h3 inside tab content */
+    }
+}
+
+@media (max-width: 480px) {
+    .header-actions .btn {
+        font-size: 0.85em;
+        padding: 8px 12px;
+    }
+    .modal-content {
+        padding: 20px;
+    }
+    .modal-content h2 {
+        font-size: 1.4em;
+    }
+    .btn {
+        font-size: 0.9em;
+    }
+}

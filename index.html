@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <h1>Budget Tracker 💰</h1>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="openModal('incomeModal')"><i class="fas fa-plus-circle"></i> Add Income</button>
+                <button class="btn btn-danger" onclick="openModal('expenseModal')"><i class="fas fa-minus-circle"></i> Add Expense</button>
+                <button class="btn btn-accent" onclick="openModal('plannedModal')"><i class="fas fa-calendar-alt"></i> Add Planned Item</button>
+                <button class="btn toggle-dark-mode" onclick="toggleDarkMode()">
+                    <span id="dark-mode-icon">🌙</span> <span id="dark-mode-text">Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="dashboard-cards">
+            <div class="card">
+                <h3>Overall Income</h3>
+                <p id="overallIncome">GHS 0.00</p>
+            </div>
+            <div class="card">
+                <h3>Overall Expenses</h3>
+                <p id="overallExpenses">GHS 0.00</p>
+            </div>
+            <div class="card">
+                <h3>Overall Balance</h3>
+                <p id="overallBalance">GHS 0.00</p>
+            </div>
+            <div class="more-dashboard-cards" id="moreDashboardCards">
+                <div class="card">
+                    <h3>Current Month Income</h3>
+                    <p id="currentMonthIncome">GHS 0.00</p>
+                </div>
+                <div class="card">
+                    <h3>Current Month Expenses</h3>
+                    <p id="currentMonthExpenses">GHS 0.00</p>
+                </div>
+                <div class="card">
+                    <h3>Current Month Balance</h3>
+                    <p id="currentMonthBalance">GHS 0.00</p>
+                </div>
+                <div class="card today-spending">
+                    <h3>Today's Spending</h3>
+                    <p id="todaySpending">GHS 0.00</p>
+                </div>
+            </div>
+            <button class="btn btn-secondary toggle-dashboard-btn" onclick="toggleDashboardCards()">Show More Balances <i class="fas fa-chevron-down"></i></button>
+        </section>
+
+        <section class="filters-section card">
+            <button class="btn btn-secondary toggle-filters-btn" onclick="toggleFiltersMobile()">Show Filters <i class="fas fa-chevron-down"></i></button>
+            <div class="filter-collapse-content" id="filterCollapseContent">
+                <div class="filter-group">
+                    <label for="filterCategory">Category:</label>
+                    <select id="filterCategory">
+                        <option value="all">All Categories</option>
+                        <option value="Business & Work Tools">Business & Work Tools</option>
+                        <option value="Communication">Airtime & Data</option>
+                        <option value="Debt Payments">Debt Payments</option>
+                        <option value="Education">Education</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Fashion & Apparel">Fashion & Apparel</option>
+                        <option value="Food & Groceries">Food & Groceries</option>
+                        <option value="Gifts & Donations">Gifts & Donations</option>
+                        <option value="Health">Health</option>
+                        <option value="Investments">Investments</option>
+                        <option value="Lifestyle">Lifestyle</option>
+                        <option value="Miscellaneous/Other">Miscellaneous/Other</option>
+                        <option value="Personal Care">Personal Care</option>
+                        <option value="Rent/Housing">Rent/Housing</option>
+                        <option value="Savings">Savings</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Utilities">Utilities</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterYear">Year:</label>
+                    <select id="filterYear">
+                        </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterMonth">Month:</label>
+                    <select id="filterMonth">
+                        <option value="all">All Months</option>
+                        <option value="0">January</option>
+                        <option value="1">February</option>
+                        <option value="2">March</option>
+                        <option value="3">April</option>
+                        <option value="4">May</option>
+                        <option value="5">June</option>
+                        <option value="6">July</option>
+                        <option value="7">August</option>
+                        <option value="8">September</option>
+                        <option value="9">October</option>
+                        <option value="10">November</option>
+                        <option value="11">December</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterDate">Specific Date:</label>
+                    <input type="date" id="filterDate">
+                    <input type="checkbox" id="filterAllDays" checked>
+                    <label for="filterAllDays">Show All Days</label>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-info" onclick="resetFilters()"><i class="fas fa-sync-alt"></i> Reset Filters</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="desktopActionsGroup">
+            <button class="btn btn-secondary" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Export to PDF</button>
+            <button class="btn btn-secondary" onclick="exportCSV()"><i class="fas fa-file-csv"></i> Export to CSV</button>
+            <button class="btn btn-secondary" onclick="exportChartsToPDF()"><i class="fas fa-chart-bar"></i> Export Charts PDF</button>
+            <button class="btn btn-danger" onclick="resetAll()"><i class="fas fa-redo-alt"></i> Reset All Data</button>
+        </section>
+
+        <button class="btn btn-secondary toggle-mobile-actions-btn" onclick="toggleMobileActions()">More Actions <i class="fas fa-ellipsis-h"></i></button>
+
+        <section class="data-section">
+            <div class="card">
+                <h2>Expense History 💸</h2>
+                <div class="sort-controls">
+                    <label for="sortExpenseBy">Sort By:</label>
+                    <select id="sortExpenseBy" onchange="setExpenseSortCriteria()">
+                        <option value="date">Date</option>
+                        <option value="amount">Amount</option>
+                        <option value="name">Name</option>
+                    </select>
+                    <label for="sortExpenseOrder">Order:</label>
+                    <select id="sortExpenseOrder" onchange="setExpenseSortCriteria()">
+                        <option value="desc">Descending</option>
+                        <option value="asc">Ascending</option>
+                    </select>
+                </div>
+                <div class="entry-list" id="expenseHistory">
+                    <p class="no-data-message">No expenses recorded yet.</p>
+                </div>
+                <button class="btn btn-info show-more-btn" id="showMoreExpenses" onclick="showAllItems('expenseHistory')">Show More Expenses</button>
+            </div>
+
+            <div class="card">
+                <h2>Daily Spending Summary 🗓️</h2>
+                <div class="entry-list" id="dailySpendingSummary">
+                    <p class="no-data-message">No daily spending summary available.</p>
+                </div>
+                <button class="btn btn-info show-more-btn" id="showMoreDaily" onclick="showAllItems('dailySpendingSummary')">Show More Daily Summaries</button>
+            </div>
+        </section>
+
+        <section class="data-section">
+            <div class="card">
+                <h2>Weekly Financial Summary 📊</h2>
+                <div class="entry-list" id="weeklyFinancialSummary">
+                    <p class="no-data-message">No weekly financial summary available.</p>
+                </div>
+                <button class="btn btn-info show-more-btn" id="showMoreWeekly" onclick="showAllItems('weeklyFinancialSummary')">Show More Weekly Summaries</button>
+            </div>
+
+            <div class="card">
+                <h2>Planned Purchases 🛍️</h2>
+                <div class="entry-list" id="plannedList">
+                    <p class="no-data-message">No planned purchases added yet.</p>
+                </div>
+                <button class="btn btn-info show-more-btn" id="showMorePlanned" onclick="showAllItems('plannedList')">Show More Planned Items</button>
+            </div>
+        </section>
+
+
+        <section class="charts-section">
+            <h2>Financial Overview Charts 📈</h2>
+
+            <div class="chart-container" id="categoryChartContainer">
+                <h3>Spending by Category</h3>
+                <canvas id="categoryChartCanvas"></canvas>
+                <div class="no-data-message" id="noCategoryChartData" style="display:none;">No expense data for this chart.</div>
+            </div>
+            <div class="chart-container" id="monthlyChartContainer">
+                <h3>Monthly Income vs. Expenses</h3>
+                <canvas id="monthlyChartCanvas"></canvas>
+                <div class="no-data-message" id="noMonthlyChartData" style="display:none;">No income or expense data for this chart.</div>
+            </div>
+            <div class="chart-container" id="weeklySpendingChartContainer">
+                <h3>Weekly Spending Trend</h3>
+                <canvas id="weeklySpendingChartCanvas"></canvas>
+                <div class="no-data-message" id="noWeeklySpendingChartData" style="display:none;">No weekly expense data for this chart.</div>
+            </div>
+
+
+            <div class="chart-tabs">
+                <button class="tab-button active" onclick="openChartTab(event, 'categoryChartTab')">Categories</button>
+                <button class="tab-button" onclick="openChartTab(event, 'monthlyChartTab')">Monthly</button>
+                <button class="tab-button" onclick="openChartTab(event, 'weeklySpendingChartTab')">Weekly</button>
+            </div>
+
+            <div id="categoryChartTab" class="chart-tab-content">
+                <h3>Spending by Category</h3>
+                <canvas id="categoryChartMobileCanvas"></canvas>
+                <div class="no-data-message" id="noCategoryChartDataMobile" style="display:none;">No expense data for this chart.</div>
+            </div>
+            <div id="monthlyChartTab" class="chart-tab-content" style="display:none;">
+                <h3>Monthly Income vs. Expenses</h3>
+                <canvas id="monthlyChartMobileCanvas"></canvas>
+                <div class="no-data-message" id="noMonthlyChartDataMobile" style="display:none;">No income or expense data for this chart.</div>
+            </div>
+            <div id="weeklySpendingChartTab" class="chart-tab-content" style="display:none;">
+                <h3>Weekly Spending Trend</h3>
+                <canvas id="weeklySpendingChartMobileCanvas"></canvas>
+                <div class="no-data-message" id="noWeeklySpendingChartDataMobile" style="display:none;">No weekly expense data for this chart.</div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <div id="incomeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('incomeModal')">&times;</span>
+            <h2>Add Income</h2>
+            <div class="form-group">
+                <label for="modalIncomeAmount">Amount (GHS):</label>
+                <input type="number" id="modalIncomeAmount" placeholder="e.g., 500.00" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="modalIncomeNote">Note (Optional):</label>
+                <input type="text" id="modalIncomeNote" placeholder="e.g., Monthly Salary">
+            </div>
+            <button class="btn btn-success" onclick="submitIncomeModal()"><i class="fas fa-check-circle"></i> Add Income</button>
+        </div>
+    </div>
+
+    <div id="expenseModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('expenseModal')">&times;</span>
+            <h2>Add Expense</h2>
+            <div class="form-group">
+                <label for="modalExpenseName">Item Name:</label>
+                <input type="text" id="modalExpenseName" placeholder="e.g., Groceries" required>
+            </div>
+            <div class="form-group">
+                <label for="modalExpenseAmount">Amount (GHS):</label>
+                <input type="number" id="modalExpenseAmount" placeholder="e.g., 75.50" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="modalExpenseCategory">Category:</label>
+                <select id="modalExpenseCategory" required>
+                    <option value="Business & Work Tools">Business & Work Tools</option>
+                    <option value="Communication">Airtime & Data</option>
+                    <option value="Debt Payments">Debt Payments</option>
+                    <option value="Education">Education</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Fashion & Apparel">Fashion & Apparel</option>
+                    <option value="Food & Groceries">Food & Groceries</option>
+                    <option value="Gifts & Donations">Gifts & Donations</option>
+                    <option value="Health">Health</option>
+                    <option value="Investments">Investments</option>
+                    <option value="Lifestyle">Lifestyle</option>
+                    <option value="Miscellaneous/Other">Miscellaneous/Other</option>
+                    <option value="Personal Care">Personal Care</option>
+                    <option value="Rent/Housing">Rent/Housing</option>
+                    <option value="Savings">Savings</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Utilities">Utilities</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="modalExpenseDate">Date:</label>
+                <input type="date" id="modalExpenseDate" required>
+            </div>
+            <div class="form-group">
+                <label for="modalExpenseNote">Note (Optional):</label>
+                <input type="text" id="modalExpenseNote" placeholder="e.g., Weekly shopping at Melcom">
+            </div>
+            <button class="btn btn-success" onclick="submitExpenseModal()"><i class="fas fa-check-circle"></i> Add Expense</button>
+        </div>
+    </div>
+
+    <div id="editExpenseModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('editExpenseModal')">&times;</span>
+            <h2>Edit Expense</h2>
+            <input type="hidden" id="editExpenseId">
+            <div class="form-group">
+                <label for="editExpenseName">Item Name:</label>
+                <input type="text" id="editExpenseName" required>
+            </div>
+            <div class="form-group">
+                <label for="editExpenseAmount">Amount (GHS):</label>
+                <input type="number" id="editExpenseAmount" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="editExpenseCategory">Category:</label>
+                <select id="editExpenseCategory" required>
+                    <option value="Business & Work Tools">Business & Work Tools</option>
+                    <option value="Communication">Airtime & Data</option>
+                    <option value="Debt Payments">Debt Payments</option>
+                    <option value="Education">Education</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Fashion & Apparel">Fashion & Apparel</option>
+                    <option value="Food & Groceries">Food & Groceries</option>
+                    <option value="Gifts & Donations">Gifts & Donations</option>
+                    <option value="Health">Health</option>
+                    <option value="Investments">Investments</option>
+                    <option value="Lifestyle">Lifestyle</option>
+                    <option value="Miscellaneous/Other">Miscellaneous/Other</option>
+                    <option value="Personal Care">Personal Care</option>
+                    <option value="Rent/Housing">Rent/Housing</option>
+                    <option value="Savings">Savings</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Utilities">Utilities</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="editExpenseDate">Date:</label>
+                <input type="date" id="editExpenseDate" required>
+            </div>
+            <div class="form-group">
+                <label for="editExpenseNote">Note (Optional):</label>
+                <input type="text" id="editExpenseNote">
+            </div>
+            <button class="btn btn-success" onclick="submitEditExpenseModal()"><i class="fas fa-save"></i> Save Changes</button>
+        </div>
+    </div>
+
+    <div id="plannedModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('plannedModal')">&times;</span>
+            <h2>Add Planned Purchase</h2>
+            <div class="form-group">
+                <label for="modalPlanName">Item Name:</label>
+                <input type="text" id="modalPlanName" placeholder="e.g., New Phone" required>
+            </div>
+            <div class="form-group">
+                <label for="modalPlanAmount">Amount (GHS):</label>
+                <input type="number" id="modalPlanAmount" placeholder="e.g., 1200.00" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="modalPlanCategory">Category:</label>
+                <select id="modalPlanCategory" required>
+                    <option value="Business & Work Tools">Business & Work Tools</option>
+                    <option value="Communication">Airtime & Data</option>
+                    <option value="Debt Payments">Debt Payments</option>
+                    <option value="Education">Education</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Fashion & Apparel">Fashion & Apparel</option>
+                    <option value="Food & Groceries">Food & Groceries</option>
+                    <option value="Gifts & Donations">Gifts & Donations</option>
+                    <option value="Health">Health</option>
+                    <option value="Investments">Investments</option>
+                    <option value="Lifestyle">Lifestyle</option>
+                    <option value="Miscellaneous/Other">Miscellaneous/Other</option>
+                    <option value="Personal Care">Personal Care</option>
+                    <option value="Rent/Housing">Rent/Housing</option>
+                    <option value="Savings">Savings</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Utilities">Utilities</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="modalPlanDate">Planned Date:</label>
+                <input type="date" id="modalPlanDate" required>
+            </div>
+            <div class="form-group">
+                <label for="modalPlanNote">Note (Optional):</label>
+                <input type="text" id="modalPlanNote" placeholder="e.g., Saving for this">
+            </div>
+            <button class="btn btn-success" onclick="submitPlannedModal()"><i class="fas fa-check-circle"></i> Add Planned Item</button>
+        </div>
+    </div>
+
+    <div id="mobileActionsModal" class="modal">
+        <div class="modal-content mobile-actions-content">
+            <span class="close-button" onclick="closeModal('mobileActionsModal')">&times;</span>
+            <h2>Actions</h2>
+            <button class="btn btn-secondary" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Export to PDF</button>
+            <button class="btn btn-secondary" onclick="exportCSV()"><i class="fas fa-file-csv"></i> Export to CSV</button>
+            <button class="btn btn-secondary" onclick="exportChartsToPDF()"><i class="fas fa-chart-bar"></i> Export Charts PDF</button>
+            <button class="btn btn-danger" onclick="resetAll()"><i class="fas fa-redo-alt"></i> Reset All Data</button>
+        </div>
+    </div>
+
+
+    <footer>
+        <p>&copy; 2025 Budget Tracker. All rights reserved.</p>
+        <p>Made with ❤️ in Accra, Ghana.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
